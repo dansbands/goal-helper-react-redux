@@ -3,13 +3,37 @@ import { connect } from 'react-redux';
 import * as actions from '../actions'
 
 class SupportingContent extends React.Component {
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('SupportingContent nextProps', nextProps);
+  //   console.log('SupportingContent nextState', nextState);
+  //   return true
+  // }
+
+  handleClick = (e, id) => {
+    if (e.target.className.includes('trash')) {
+      console.log('delete');
+      this.props.deleteGoal(id)
+    } else {
+      console.log('click', e.target.name);
+      this.props.selectGoal(id)
+    }
+  }
+
   render() {
     console.log('SupportingContent', this.props);
-    let goals = this.props.goals.goals.map((g,i) => {
+    let goals = this.props.goals.all.map(g => {
       return (
-        <div key={i} className="panel panel-default">
+        <div
+          key={g.id}
+          className="panel panel-default"
+          name="card"
+          onClick={e => this.handleClick(e, g.id)}>
           <div className="panel-heading">
-            <h3 className="panel-title">{g.title}</h3>
+            <h3 className="panel-title">{g.title}
+              <i
+                name="delete"
+                className="glyphicon glyphicon-trash pull-right"></i>
+            </h3>
           </div>
           <div className="panel-body">
             {g.body}
@@ -17,7 +41,6 @@ class SupportingContent extends React.Component {
         </div>
       )
     })
-
 
     return (
       <div className="supporting-content">

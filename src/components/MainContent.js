@@ -5,7 +5,19 @@ import { connect } from 'react-redux';
 class MainContent extends React.Component {
   state = {
     title: "I'm the title",
-    body: "I'm the body"
+    body: "I'm the body",
+    id: ''
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.currentGoal !== nextProps.currentGoal) {
+      console.log('Selected Goal', nextProps.currentGoal);
+      this.setState({
+        title: nextProps.currentGoal.title,
+        body: nextProps.currentGoal.body,
+        id: nextProps.id
+      })
+    }
   }
 
   handleFormChange = (key, value) => {
@@ -13,6 +25,15 @@ class MainContent extends React.Component {
     this.setState({
       [key]: value
     })
+  }
+
+  handleFormSubmit = () => {
+    if (this.props.currentGoal) {
+      this.props.updateGoal(this.state)
+    } else {
+      this.props.createGoal(this.state)
+    }
+    this.setState({ title: "", body: "", id: "" })
   }
 
   render() {
@@ -47,15 +68,17 @@ class MainContent extends React.Component {
           <button
             type="submit"
             className="btn btn-default"
-            onClick={() => this.props.createGoal(this.state)}>Submit</button>
+            onClick={this.handleFormSubmit}>Submit</button>
         </div>
       </div>
     )
   }
 }
 
-// const mapStateToProps = state => {
-//   return
-// }
+const mapStateToProps = state => {
+  if (state.goals.all) {
+    return { currentGoal: state.goals.all[state.goals.selectedGoalId], id: state.goals.selectedGoalId }
+  }
+}
 
-export default connect(null, actions)(MainContent);
+export default connect(mapStateToProps, actions)(MainContent);

@@ -18,8 +18,8 @@ export function fetchGoals() {
   return { type: FETCH_GOALS, }
 }
 
-export function updateGoal(id) {
-  return { type: UPDATE_GOAL, id: id }
+export function updateGoal(data) {
+  return { type: UPDATE_GOAL, data}
 }
 
 export function deleteGoal(id) {

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import cuid from 'cuid';
 import {
   CREATE_GOAL,
   FETCH_GOALS,
@@ -7,13 +8,20 @@ import {
   SELECT_GOAL
 } from './actions/types'
 
-const goalsReducer = (state = { goals: [] }, action) => {
+
+const initialGoalState = {
+  all: [],
+  selectedGoalId: ""
+}
+
+const goalsReducer = (state = initialGoalState, action) => {
   switch (action.type) {
     case CREATE_GOAL:
+      action.goal.id = cuid()
       return {
         ...state,
-        goals: [
-          ...state.goals,
+        all: [
+          ...state.all,
             action.goal
         ]
       };
@@ -25,9 +33,22 @@ const goalsReducer = (state = { goals: [] }, action) => {
     case FETCH_GOALS:
       return [...action.payload];
     case UPDATE_GOAL:
-      return [...action.payload];
+      console.log("updateGoal", action);
+      let goal = state.all[action.data.id]
+      goal.title = action.data.title
+      goal.body = action.data.body
+      goal.id = action.data.id
+      state.selectedGoalId = ""
+      console.log("updating Goal", state);
+      return state;
     case DELETE_GOAL:
-      return [...action.payload];
+    console.log('deleting Goal', action);
+    let goals = state.all.filter(g => g.id !== action.id)
+    console.log('goals', goals);
+      return {
+        ...state,
+        all: goals
+      }
     default:
       return state;
   }
