@@ -34,13 +34,18 @@ const goalsReducer = (state = initialGoalState, action) => {
       return [...action.payload];
     case UPDATE_GOAL:
       console.log("updateGoal", action);
-      let goal = state.all[action.data.id]
+      let goal = state.all.find(g => g.id === action.data.id)
       goal.title = action.data.title
       goal.body = action.data.body
       goal.id = action.data.id
       state.selectedGoalId = ""
       console.log("updating Goal", state);
-      return state;
+      return {
+        ...state,
+        all: [
+          ...state.all
+        ]
+      };
     case DELETE_GOAL:
     console.log('deleting Goal', action);
     let goals = state.all.filter(g => g.id !== action.id)

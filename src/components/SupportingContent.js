@@ -14,7 +14,7 @@ class SupportingContent extends React.Component {
       console.log('delete');
       this.props.deleteGoal(id)
     } else {
-      console.log('click', e.target.name);
+      console.log('click', id);
       this.props.selectGoal(id)
     }
   }

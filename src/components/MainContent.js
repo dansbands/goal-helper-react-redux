@@ -12,11 +12,13 @@ class MainContent extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.currentGoal !== nextProps.currentGoal) {
       console.log('Selected Goal', nextProps.currentGoal);
-      this.setState({
-        title: nextProps.currentGoal.title,
-        body: nextProps.currentGoal.body,
-        id: nextProps.id
-      })
+      if(nextProps.currentGoal) {
+        this.setState({
+          title: nextProps.currentGoal.title,
+          body: nextProps.currentGoal.body,
+          id: nextProps.id
+        })
+      }
     }
   }
 
@@ -77,7 +79,7 @@ class MainContent extends React.Component {
 
 const mapStateToProps = state => {
   if (state.goals.all) {
-    return { currentGoal: state.goals.all[state.goals.selectedGoalId], id: state.goals.selectedGoalId }
+    return { currentGoal: state.goals.all.find(g => g.id === state.goals.selectedGoalId), id: state.goals.selectedGoalId }
   }
 }
 
