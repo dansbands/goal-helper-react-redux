@@ -8,6 +8,10 @@ class SupportingContent extends React.Component {
   //   console.log('SupportingContent nextState', nextState);
   //   return true
   // }
+  componentDidMount() {
+    this.props.fetchGoals()
+  }
+
 
   handleClick = (e, id) => {
     if (e.target.className.includes('trash')) {
@@ -21,26 +25,29 @@ class SupportingContent extends React.Component {
 
   render() {
     console.log('SupportingContent', this.props);
-    let goals = this.props.goals.all.map(g => {
-      return (
-        <div
-          key={g.id}
-          className="panel panel-default"
-          name="card"
-          onClick={e => this.handleClick(e, g.id)}>
-          <div className="panel-heading">
-            <h3 className="panel-title">{g.title}
-              <i
-                name="delete"
-                className="glyphicon glyphicon-trash pull-right"></i>
-            </h3>
+    let goals
+    if (this.props.goals.all.length) {
+      goals = this.props.goals.all.map(g => {
+        return (
+          <div
+            key={g.id}
+            className="panel panel-default"
+            name="card"
+            onClick={e => this.handleClick(e, g.id)}>
+            <div className="panel-heading">
+              <h3 className="panel-title">{g.title}
+                <i
+                  name="delete"
+                  className="glyphicon glyphicon-trash pull-right"></i>
+              </h3>
+            </div>
+            <div className="panel-body">
+              {g.body.substring(0,50) + "..."}
+            </div>
           </div>
-          <div className="panel-body">
-            {g.body}
-          </div>
-        </div>
-      )
-    })
+        )
+      })
+    }
 
     return (
       <div className="supporting-content">

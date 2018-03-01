@@ -21,8 +21,8 @@ const goalsReducer = (state = initialGoalState, action) => {
       return {
         ...state,
         all: [
-          ...state.all,
-            action.goal
+          action.goal,
+          ...state.all
         ]
       };
     case SELECT_GOAL:
@@ -31,7 +31,11 @@ const goalsReducer = (state = initialGoalState, action) => {
         selectedGoalId: action.id
       };
     case FETCH_GOALS:
-      return [...action.payload];
+    console.log('fetching goals', action);
+      return {
+        ...state,
+        all: [...action.payload]
+      }
     case UPDATE_GOAL:
       console.log("updateGoal", action);
       let goal = state.all.find(g => g.id === action.data.id)

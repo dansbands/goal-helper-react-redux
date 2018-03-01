@@ -6,8 +6,12 @@ class MainContent extends React.Component {
   state = {
     title: "I'm the title",
     body: "I'm the body",
-    id: ''
+    id: '',
+    user_id: 1
   }
+
+
+
 
   componentWillReceiveProps(nextProps) {
     if (this.props.currentGoal !== nextProps.currentGoal) {
@@ -43,7 +47,7 @@ class MainContent extends React.Component {
     console.log('MainContent State', this.state);
     return (
       <div className="main-content">
-        <h1>Goal Coach</h1>
+        <h1>Goal Helper</h1>
 
         <div>
           <div className='form-group'>
